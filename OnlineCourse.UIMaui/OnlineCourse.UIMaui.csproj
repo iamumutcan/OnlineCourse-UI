@@ -64,4 +64,9 @@
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\OnlineCourse.Model\OnlineCourse.Model.csproj" />
+      <ProjectReference Include="..\OnlineCourse.Service\OnlineCourse.Service.csproj" />
+    </ItemGroup>
+
 </Project>

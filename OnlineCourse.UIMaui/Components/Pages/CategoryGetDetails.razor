@@ -1,0 +1,48 @@
+﻿@page "/CategoryGetDetails/{id}"
+@using OnlineCourse.Model.Models
+@using OnlineCourse.Service
+@inject ICategoryService CategoryService;
+
+
+@if (_category == null)
+{
+    <p>Loading .... </p>
+}
+else
+{
+    <div class="table-responsive">
+        <span>Category Id: @_category.Id</span>
+        <h1> @_category.Name</h1>
+        <p>@_category.Description</p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th> Id</th>
+                    <th>Name</th>
+                    <th>Desc</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var course in _category.Courses)
+                {
+                    <tr>
+                        <td>@course.Id</td>
+                        <td>@course.Name</td>
+                        <td>@course.Description</td>
+                    </tr>
+                }
+                
+            </tbody>
+        </table>
+    </div>
+}
+@code {
+    [Parameter]
+    public int StudentID { get; set; }
+    CategoryModel _category;
+    protected override async Task OnInitializedAsync()
+    {
+        _category = await CategoryService.GetByIdAsync("Categories/94561889-5369-4dcd-82e4-d0d7f83cdf4f");
+    }
+
+}

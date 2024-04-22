@@ -1,0 +1,52 @@
+﻿@page "/Categorylist"
+@using OnlineCourse.Model.Models
+@using OnlineCourse.Service
+@inject ICategoryService CategoryService;
+@inject NavigationManager NavManager;
+
+
+@if (_categoryList == null)
+{
+    <p>Loading .... </p>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th> Id</th>
+                    <th>Name</th>
+                    <th>Desc</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var category in _categoryList)
+                {
+                    <tr>
+                        <td>@category.Id</td>
+                        <td>@category.Name</td>
+                        <td>@category.Description</td>
+                        <td @onclick="@(()=> GetDetail(category))">Details</td>
+
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+@code {
+    List<CategoryModel> _categoryList;
+    protected override async Task OnInitializedAsync()
+    {
+        _categoryList = await CategoryService.GetAllAsync("Categories?PageIndex=0&PageSize=10");
+    }
+    private async void GetDetail(CategoryModel category)
+    {
+        NavManager.NavigateTo($"CategoryGetDetails/{category.Id}");
+
+
+    }
+
+}

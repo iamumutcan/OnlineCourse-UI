@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using OnlineCourse.Service;
 
 namespace OnlineCourse.UIMaui
 {
@@ -17,9 +18,10 @@ namespace OnlineCourse.UIMaui
             builder.Services.AddMauiBlazorWebView();
 
 #if DEBUG
-    		builder.Services.AddBlazorWebViewDeveloperTools();
-    		builder.Logging.AddDebug();
+            builder.Services.AddBlazorWebViewDeveloperTools();
+            builder.Logging.AddDebug();
 #endif
+            builder.Services.AddSingleton<ICategoryService, CategoryService>();
 
             return builder.Build();
         }
