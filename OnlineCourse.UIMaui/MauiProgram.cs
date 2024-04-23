@@ -22,6 +22,7 @@ namespace OnlineCourse.UIMaui
             builder.Logging.AddDebug();
 #endif
             builder.Services.AddSingleton<ICategoryService, CategoryService>();
+            builder.Services.AddSingleton<ICourseService, CourseService>();
 
             return builder.Build();
         }

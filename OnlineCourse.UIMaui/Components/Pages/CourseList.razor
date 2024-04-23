@@ -1,22 +1,17 @@
-﻿@page "/CategoryGetDetails"
-
+﻿@page "/courselist"
 @using OnlineCourse.Model.Models
 @using OnlineCourse.Service
-@inject ICategoryService CategoryService;
-@inject NavigationManager _navigationManager
+@inject ICourseService courseService;
+@inject NavigationManager NavManager;
 
 
-@if (_category == null)
+@if (_courseList == null)
 {
     <p>Loading .... </p>
 }
 else
 {
     <div class="table-responsive">
-        <span>Category Id: @_category.Id</span>
-        <span>Category Id: @Id</span>
-        <h1> @_category.Name</h1>
-        <p>@_category.Description</p>
         <table class="table">
             <thead>
                 <tr>
@@ -26,29 +21,32 @@ else
                 </tr>
             </thead>
             <tbody>
-                @foreach (var course in _category.Courses)
+                @foreach (var course in _courseList)
                 {
                     <tr>
                         <td>@course.Id</td>
                         <td>@course.Name</td>
                         <td>@course.Description</td>
+                        <td @onclick="@(()=> GetDetail(course))">Details</td>
+
+
                     </tr>
                 }
-                
             </tbody>
         </table>
     </div>
 }
 @code {
-    [Parameter]
-    public string Id { get; set; }
-
-    CategoryModel _category;
+    List<CourseModel> _courseList;
     protected override async Task OnInitializedAsync()
     {
-        Id = "94561889-5369-4dcd-82e4-d0d7f83cdf4f";
-       string RequestUrl = "Categories/" + Id.ToString();
-        _category = await CategoryService.GetByIdAsync(RequestUrl);
+        _courseList = await courseService.GetAllAsync("Courses?PageIndex=0&PageSize=10");
+    }
+    private async void GetDetail(CourseModel course)
+    {
+        NavManager.NavigateTo($"courseGetDetails/{course.Id}");
+
+
     }
 
 }
