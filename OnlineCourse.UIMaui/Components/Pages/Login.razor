@@ -1,0 +1,58 @@
+﻿@page "/login"
+@inject IUserService UserService;
+@inject NavigationManager NavigationManager
+
+<h3>Login </h3>
+
+<div class="form-group">
+    <label for="email">Email:</label>
+    <input type="email" class="form-control" id="email" @bind="_email" />
+</div>
+<div class="form-group">
+    <label for="password">Password</label>
+    <input type="password" class="form-control" id="password" @bind="_password" />
+</div>
+<button type="button" class="btn btn-primary" @onclick="LoginFunc">Login</button>
+
+@if (_userModel != null)
+{
+    <div>
+        <h4>Success! (Test Data)</h4>
+        <p>Id: @_userModel.Id</p>
+        <p>Mail: @_userModel.Email</p>
+        <p>Token: @AuthToken</p>
+    </div>
+}
+
+@code {
+    private string _email = "narch@kodlama.io";
+    private string _password = "Passw0rd!";
+    private UserModel _userModel;
+    private string AuthToken;
+
+    private async Task LoginFunc()
+    {
+        UserModel userModel = new UserModel
+            {
+                Email = _email,
+                Password = _password
+            };
+
+        string requestUrl = "Auth/Login";
+
+        _userModel = await UserService.PostAsync(requestUrl, userModel);
+
+        if (_userModel != null)
+        {
+            AuthToken = _userModel.AccessToken.Token;
+            string requestUrlToken = "Users/GetFromAuth";
+
+            _userModel = await UserService.GetAsync(requestUrlToken, AuthToken);
+           // _userModel.AccessToken.Token = AuthToken.ToString();
+        }
+
+        else
+        {
+        }
+    }
+}

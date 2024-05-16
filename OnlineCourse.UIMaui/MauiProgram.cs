@@ -21,8 +21,10 @@ namespace OnlineCourse.UIMaui
             builder.Services.AddBlazorWebViewDeveloperTools();
             builder.Logging.AddDebug();
 #endif
+
             builder.Services.AddSingleton<ICategoryService, CategoryService>();
             builder.Services.AddSingleton<ICourseService, CourseService>();
+            builder.Services.AddSingleton<IUserService, UserService>();
 
             return builder.Build();
         }

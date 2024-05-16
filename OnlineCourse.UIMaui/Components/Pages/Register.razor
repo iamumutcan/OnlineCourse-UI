@@ -1,0 +1,52 @@
+﻿@page "/Register"
+@inject IUserService UserService;
+@inject NavigationManager NavigationManager
+
+<h3>Register </h3>
+
+<div class="form-group">
+    <label for="email">Email:</label>
+    <input type="email" class="form-control" id="email" @bind="_email" />
+</div>
+<div class="form-group">
+    <label for="password">Password</label>
+    <input type="password" class="form-control" id="password" @bind="_password" />
+</div>
+<button type="button" class="btn btn-primary" @onclick="LoginFunc">Register</button>
+
+@if (_userModel != null)
+{
+    <div>
+        <h4>Success!</h4>
+        <p>Mail: @_userModel.Email</p>
+        <p>Token: @_userModel.AccessToken.Token</p>
+    </div>
+}
+
+@code {
+    private string _email;
+    private string _password;
+    private UserModel _userModel;
+
+    private async Task LoginFunc()
+    {
+        UserModel userModel = new UserModel
+            {
+                Email = _email,
+                Password = _password
+            };
+
+        string requestUrl = "Auth/Register";
+
+        _userModel = await UserService.PostAsync(requestUrl, userModel);
+
+        if (_userModel != null)
+        {
+         
+        }
+
+        else
+        {
+        }
+    }
+}

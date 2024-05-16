@@ -1,4 +1,4 @@
-﻿@page "/CategoryGetDetails"
+﻿@page "/CategoryGetDetails/{Id:guid}"
 
 @using OnlineCourse.Model.Models
 @using OnlineCourse.Service
@@ -41,14 +41,14 @@ else
 }
 @code {
     [Parameter]
-    public string Id { get; set; }
+    public Guid Id { get; set; }
 
     CategoryModel _category;
     protected override async Task OnInitializedAsync()
     {
-        Id = "94561889-5369-4dcd-82e4-d0d7f83cdf4f";
+        // Id = "94561889-5369-4dcd-82e4-d0d7f83cdf4f";
        string RequestUrl = "Categories/" + Id.ToString();
-        _category = await CategoryService.GetByIdAsync(RequestUrl);
+        _category = await CategoryService.GetAsync(RequestUrl);
     }
 
 }
